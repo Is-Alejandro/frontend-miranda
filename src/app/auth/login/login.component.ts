@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+// src/app/auth/login/login.component.ts
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -10,32 +11,55 @@ import { ReactiveFormsModule } from '@angular/forms';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-
 export class LoginComponent {
 
-  form: FormGroup;
+  private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
-  constructor(private fb: FormBuilder, private router: Router) {
-    // Creamos el formulario reactivo
-    this.form = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
-    });
-  }
+  form: FormGroup = this.fb.group({
+    // Tu HTML usa formControlName="username"
+    username: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+  });
 
-  // Método donde tu compañero conectará al backend
-  login() {
+  loading = false;
+  errorMessage = '';
+
+  constructor() {}
+
+  login(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
-    const data = this.form.value;
+    const { username, password } = this.form.value;
 
-    console.log("Datos del formulario para backend:", data);
+    // <-- IMPORTANTE: mapear username -> email para el backend
+    const payload = {
+      email: username,
+      password: password
+    };
 
-    // Aquí tu compañero agregará la conexión real:
-    // this.authService.login(data).subscribe(...);
+    console.log('Enviando al backend:', payload);
 
+    this.loading = true;
+    this.errorMessage = '';
+
+    this.authService.login(payload).subscribe({
+      next: (res) => {
+        this.loading = false;
+        console.log('Login OK:', res);
+
+        // Después de login correcto → ir a una pantalla protegida
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        this.loading = false;
+        console.error('Error en login:', err);
+        this.errorMessage = 'Usuario o contraseña incorrectos';
+      }
+    });
   }
 }
