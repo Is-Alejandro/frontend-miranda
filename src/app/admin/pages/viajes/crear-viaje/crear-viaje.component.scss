@@ -1,0 +1,72 @@
+.titulo {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: #1f2937; /* gris oscuro */
+  }
+  
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 450px;
+    background: #ffffff;
+    padding: 20px 25px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #374151;
+  }
+  
+  input {
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 15px;
+    transition: border-color 0.2s;
+  }
+  
+  input:focus {
+    border-color: #3b82f6; /* azul */
+    outline: none;
+  }
+  
+  small {
+    font-size: 13px;
+    color: #dc2626; /* rojo de error */
+    margin-top: 4px;
+  }
+  
+  .btn-guardar {
+    margin-top: 10px;
+    padding: 12px;
+    background-color: #2563eb; /* azul */
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .btn-guardar:hover {
+    background-color: #1d4ed8;
+  }
+  
+  .btn-guardar:disabled {
+    background-color: #93c5fd;
+    cursor: not-allowed;
+  }
+  

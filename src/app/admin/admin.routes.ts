@@ -33,7 +33,7 @@ export const ADMIN_ROUTES: Routes = [
               import('./pages/viajes/crear-viaje/crear-viaje.component')
                 .then(m => m.CrearViajeComponent)
           }
-          // (la ruta editar la agregaremos más adelante)
+          // (Editar y eliminar se agregarán más adelante)
         ]
       },
 

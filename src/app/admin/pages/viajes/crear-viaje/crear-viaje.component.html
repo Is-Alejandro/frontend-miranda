@@ -1,0 +1,72 @@
+<h2 class="titulo">Crear Viaje</h2>
+
+<form [formGroup]="formulario" (ngSubmit)="onSubmit()" class="form-container">
+
+  <!-- ORIGEN -->
+  <div class="form-group">
+    <label>Origen</label>
+    <input type="text" formControlName="origen" />
+    <small *ngIf="formulario.get('origen')?.invalid && formulario.get('origen')?.touched">
+      El origen es obligatorio.
+    </small>
+  </div>
+
+  <!-- DESTINO -->
+  <div class="form-group">
+    <label>Destino</label>
+    <input type="text" formControlName="destino" />
+    <small *ngIf="formulario.get('destino')?.invalid && formulario.get('destino')?.touched">
+      El destino es obligatorio.
+    </small>
+  </div>
+
+  <!-- FECHA -->
+  <div class="form-group">
+    <label>Fecha de salida</label>
+    <input type="date" formControlName="fechaSalida" />
+    <small *ngIf="formulario.get('fechaSalida')?.invalid && formulario.get('fechaSalida')?.touched">
+      La fecha es obligatoria.
+    </small>
+  </div>
+
+  <!-- HORA -->
+  <div class="form-group">
+    <label>Hora de salida</label>
+    <input type="time" formControlName="horaSalida" />
+    <small *ngIf="formulario.get('horaSalida')?.invalid && formulario.get('horaSalida')?.touched">
+      La hora es obligatoria.
+    </small>
+  </div>
+
+  <!-- PRECIO -->
+  <div class="form-group">
+    <label>Precio</label>
+    <input type="number" formControlName="precio" />
+    <small *ngIf="formulario.get('precio')?.invalid && formulario.get('precio')?.touched">
+      El precio debe ser mayor a 0.
+    </small>
+  </div>
+
+  <!-- BUS -->
+  <div class="form-group">
+    <label>Bus</label>
+    <input type="text" formControlName="bus" placeholder="Ej: Bus 01" />
+    <small *ngIf="formulario.get('bus')?.invalid && formulario.get('bus')?.touched">
+      El bus es obligatorio.
+    </small>
+  </div>
+
+  <!-- ASIENTOS DISPONIBLES -->
+  <div class="form-group">
+    <label>Asientos disponibles</label>
+    <input type="number" formControlName="asientosDisponibles" />
+    <small *ngIf="formulario.get('asientosDisponibles')?.invalid && formulario.get('asientosDisponibles')?.touched">
+      Debe ser mínimo 1.
+    </small>
+  </div>
+
+  <button type="submit" class="btn-guardar" [disabled]="formulario.invalid">
+    Guardar Viaje
+  </button>
+
+</form>
