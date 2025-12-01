@@ -7,7 +7,7 @@ export const ADMIN_ROUTES: Routes = [
     component: AdminLayoutComponent,
     children: [
 
-      // Dashboard
+      // --- DASHBOARD ---
       {
         path: '',
         loadComponent: () =>
@@ -15,7 +15,9 @@ export const ADMIN_ROUTES: Routes = [
             .then(m => m.DashboardComponent)
       },
 
-      // --- VIAJES ---
+      // ======================
+      //        VIAJES
+      // ======================
       {
         path: 'viajes',
         children: [
@@ -30,11 +32,14 @@ export const ADMIN_ROUTES: Routes = [
             loadComponent: () =>
               import('./pages/viajes/crear-viaje/crear-viaje.component')
                 .then(m => m.CrearViajeComponent)
-          },
+          }
+          // (la ruta editar la agregaremos más adelante)
         ]
       },
 
-      // --- BOLETOS ---
+      // ======================
+      //        BOLETOS
+      // ======================
       {
         path: 'boletos',
         children: [
@@ -53,7 +58,9 @@ export const ADMIN_ROUTES: Routes = [
         ]
       },
 
-      // --- PASAJEROS ---
+      // ======================
+      //       PASAJEROS
+      // ======================
       {
         path: 'pasajeros',
         children: [

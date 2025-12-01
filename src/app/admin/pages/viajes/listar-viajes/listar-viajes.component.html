@@ -1,0 +1,30 @@
+<h2 class="titulo">Listado de Viajes</h2>
+
+<table class="tabla">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Origen</th>
+      <th>Destino</th>
+      <th>Fecha</th>
+      <th>Hora</th>
+      <th>Precio</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let v of viajes">
+      <td>{{ v.id }}</td>
+      <td>{{ v.origen }}</td>
+      <td>{{ v.destino }}</td>
+      <td>{{ v.fecha }}</td>
+      <td>{{ v.hora }}</td>
+      <td>S/ {{ v.precio }}</td>
+      <td>
+        <button class="btn-editar">Editar</button>
+        <button class="btn-eliminar">Eliminar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
