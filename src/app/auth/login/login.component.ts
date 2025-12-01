@@ -1,24 +1,30 @@
 // src/app/auth/login/login.component.ts
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
 
   form: FormGroup = this.fb.group({
-    // Tu HTML usa formControlName="username"
+    // username en el form, email en el backend
     username: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
@@ -36,10 +42,9 @@ export class LoginComponent {
 
     const { username, password } = this.form.value;
 
-    // <-- IMPORTANTE: mapear username -> email para el backend
     const payload = {
       email: username,
-      password: password
+      password: password,
     };
 
     console.log('Enviando al backend:', payload);
@@ -51,15 +56,31 @@ export class LoginComponent {
       next: (res) => {
         this.loading = false;
         console.log('Login OK:', res);
-
-        // Después de login correcto → ir a una pantalla protegida
         this.router.navigate(['/dashboard']);
       },
-      error: (err) => {
+      error: (err: HttpErrorResponse) => {
         this.loading = false;
         console.error('Error en login:', err);
-        this.errorMessage = 'Usuario o contraseña incorrectos';
-      }
+
+        if (err.status === 0) {
+          // No se pudo conectar con el backend
+          this.errorMessage =
+            'No se pudo conectar con el servidor. Intenta más tarde.';
+        } else if (err.status === 401) {
+          // Error de credenciales -> usamos el mensaje del backend
+          this.errorMessage =
+            err.error?.message || 'Credenciales incorrectas.';
+        } else {
+          this.errorMessage =
+            err.error?.message || 'Ocurrió un error inesperado.';
+        }
+      },
     });
+  }
+
+  // helpers para el HTML
+  isInvalid(field: string): boolean {
+    const control = this.form.get(field);
+    return !!control && control.invalid && control.touched;
   }
 }
